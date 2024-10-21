@@ -18,3 +18,12 @@ chmod +x install_dependencies.sh
 
 # Verify permissions
 ls -l install_dependencies.sh
+
+# Add the file to the staging area
+git add install_dependencies.sh
+
+# Commit the changes with a message
+git commit -m "Add install_dependencies.sh script"
+
+# Push the changes to the main branch on GitHub
+git push origin main
