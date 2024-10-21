@@ -242,36 +242,14 @@ def generate_statistics(data):
 
     return statistics_df
 
-st.markdown(
-    """
-    <style>
-    .stApp {
-        background-color: #1c1c1c;  /* Dark grey background */
-        color: white;
-    }
-    .stProgress > div > div > div > div {
-        height: 20px;
-    }
-    .stProgress > div > div > div > div > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 14px;
-        color: black;
-    }
-    .stText {
-        color: white;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Streamlit app
 
+# Set dark theme background
 st.markdown(
     """
     <style>
     .stApp {
-        background-color: #1c1c1c;  /* Dark grey background */
+        background-color: #121212;
         color: white;
     }
     .stProgress > div > div > div > div {
@@ -293,9 +271,10 @@ st.markdown(
 )
 
 # Title for the app
-st.markdown("<h1 style='color: ;'>Video Object Tracking and Statistics</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='color: red;'>Video Object Tracking and Statistics</h1>", unsafe_allow_html=True)
 
 # File uploader section
+st.markdown("<h3 style='color: blue; font-weight: bold;'>Upload a video file</h3>", unsafe_allow_html=True)
 uploaded_file = st.file_uploader("", type=["mp4"], key="file_uploader")
 
 if uploaded_file is not None:
@@ -350,19 +329,20 @@ if uploaded_file is not None:
         statistics_df = generate_statistics(data)
 
         # Display category counts
-        st.markdown("<h2 style='color: green; text-align: center; font-family: Arial, sans-serif; font-weight: bold;'>Category Counts</h2>", unsafe_allow_html=True)
+        category_counts = statistics_df['Category'].value_counts().to_dict()
+        st.markdown("<h2 style='color: purple; text-align: center; font-family: Arial, sans-serif; font-weight: bold;'>Category Counts</h2>", unsafe_allow_html=True)
         category_counts_html = "".join([
-            f"<p style='font-size: 24px; color: deeporange; font-weight: bold; text-align: center; margin: 10px 0;'>{category.capitalize()}: <span style='color: darkgreen;'>{count}</span></p>"
+            f"<p style='font-size: 24px; color: orange; font-weight: bold; text-align: center; margin: 10px 0;'>{category.capitalize()}: <span style='color: green;'>{count}</span></p>"
             for category, count in statistics_df['Category'].value_counts().to_dict().items()
         ])
         st.markdown(category_counts_html, unsafe_allow_html=True)
 
         # Display the statistics table
-        st.markdown("<h2 style='color: darkorange; text-align: center;'>Statistics Table</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='color: blue; text-align: center;'>Statistics Table</h2>", unsafe_allow_html=True)
 
         # Use Streamlit's dataframe for better alignment and styling
         st.dataframe(statistics_df.style.set_properties(**{
-            'background-color': 'lightgreen',  # Restored light green background
+            'background-color': 'lightgreen',
             'color': 'black',
             'border-color': 'black',
             'width': '100%'
@@ -372,8 +352,8 @@ if uploaded_file is not None:
         }]).hide(axis="index"), use_container_width=True)
 
         # Display the output video
-        st.markdown("<h2 style='color: orange; text-align: center;'>Output Video</h2>", unsafe_allow_html=True)  # Changed to green
-        st.video("/Users/ritwikghosh/runs/detect/track13/temp_video.mp4")
+        st.write("Output Video:")
+        st.video("temp_video.mp4")
 
         # Function to create a green download button for the video
         def download_video_button(video_path):
@@ -384,5 +364,5 @@ if uploaded_file is not None:
             return href
 
         # Provide the download button
-        video_path = "/Users/ritwikghosh/runs/detect/track13/temp_video.mp4"  # Ensure this path is correct
+        video_path = "temp_video.mp4"  # Ensure this path is correct
         st.markdown(download_video_button(video_path), unsafe_allow_html=True)
