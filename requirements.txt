@@ -1,5 +1,5 @@
 streamlit==0.79.0
-opencv
+opencv-python
 ultralytics
 libgl1-mesa-glx
 scipy==1.6.1
