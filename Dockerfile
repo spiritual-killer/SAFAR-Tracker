@@ -12,16 +12,20 @@ WORKDIR /app
 COPY . /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
-
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     ffmpeg \
     libsm6 \
     libxext6
 
+# Upgrade pip to the latest version
+RUN pip install --upgrade pip
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Check if Streamlit is installed
+RUN pip show streamlit || { echo "Streamlit is not installed"; exit 1; }
 
 # Make port 8501 available to the world outside this container
 EXPOSE 8501
