@@ -37,11 +37,11 @@ CMD ["streamlit", "run", "Streamlit.py"]
 
 # Step 2: Update requirements.txt
 # Ensure your requirements.txt file lists only Python dependencies:
-streamlit
-opencv-python
+streamlit==1.24.0
+opencv-python-headless==4.10.0.84
 numpy
 pandas
-ultralytics
+ultralytics==8.3.19
 scikit-learn
 scipy
 
